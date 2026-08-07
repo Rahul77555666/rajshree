@@ -111,6 +111,9 @@
 </head>
 <body>
 
+    <!-- MATCHED EXACTLY TO YOUR UPLOADED FILE NAME -->
+    <audio id="birthdayAudio" src="bday wish audio.mp3" preload="auto"></audio>
+
     <!-- SECTION 1: CUTE & FLIRTY PRANK SCREEN -->
     <div id="prank-screen">
         <span class="cute-tag">💖 Top Secret VIP Surprise 💖</span>
@@ -181,6 +184,12 @@
 
         function handleWin() {
             if (attempts >= teasers.length) {
+                // PLAY AUDIO
+                const audio = document.getElementById('birthdayAudio');
+                if (audio) {
+                    audio.play().catch(error => console.log("Audio play blocked:", error));
+                }
+
                 document.getElementById('prank-screen').style.display = 'none';
                 
                 const btn = document.getElementById('claimBtn');
