@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Surprise for Rajshree! ✨</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', -apple-system, sans-serif;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        /* Prank Screen Styling */
+        #prank-screen {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
+            border-radius: 25px;
+            box-shadow: 0 15px 30px rgba(255, 105, 180, 0.3);
+            text-align: center;
+            width: 88%;
+            max-width: 380px;
+            position: relative;
+            border: 3px solid #fff;
+        }
+        h1 { color: #ff4757; font-size: 1.5rem; margin-top: 5px; }
+        p { color: #57606f; font-size: 0.95rem; line-height: 1.4; }
+        .cute-tag {
+            background: #ffeaa7;
+            color: #d63031;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .btn-container {
+            height: 90px;
+            position: relative;
+            margin-top: 20px;
+        }
+        .dodge-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            position: fixed;
+            left: 50%;
+            top: 55%;
+            transform: translate(-50%, -50%);
+            transition: all 0.15s ease-out;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+            white-space: nowrap;
+            touch-action: manipulation;
+            z-index: 999;
+        }
+
+        /* Result Screen Styling */
+        #result-screen {
+            display: none;
+            text-align: center;
+            padding: 15px;
+            width: 100%;
+            height: 100vh;
+            background-color: #0f172a;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+        .mla-image {
+            max-width: 90%;
+            max-height: 50vh;
+            border: 4px solid #f59e0b;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.5);
+            margin-top: 10px;
+            object-fit: contain;
+        }
+        .wish-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 380px;
+        }
+        .wish-box h2 {
+            color: #f59e0b;
+            font-size: 1.2rem;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+        .wish-box p {
+            color: #f1f5f9;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SECTION 1: CUTE & FLIRTY PRANK SCREEN -->
+    <div id="prank-screen">
+        <span class="cute-tag">💖 Top Secret VIP Surprise 💖</span>
+        <h1>HOLD ON, RAJSHREE! 🛑</h1>
+        <p>A high-level confidential gift has been issued in your name!</p>
+        <p>Catch the button to claim your official package:</p>
+        
+        <div class="btn-container">
+            <button class="dodge-btn" id="claimBtn" 
+                    onmouseenter="dodge()" 
+                    ontouchstart="dodge(event)" 
+                    onclick="handleWin()">Tap to Claim Gift 🎁</button>
+        </div>
+    </div>
+
+    <!-- SECTION 2: SURPRISE REVEAL -->
+    <div id="result-screen">
+        <img src="https://i.postimg.cc/cJ6nQYkV/Note-GPT-Image-20260807000451.png" alt="MLA Rajshree" class="mla-image">
+        
+        <div class="wish-box">
+            <h2>🎉 SURPRISE! YOUR OFFICIAL BJP JOINING LETTER HAS ARRIVED! 🥳</h2>
+            <p>You finally caught it! 🏆✨</p>
+            <p>May your year be filled with big wins, zero stress, endless laughter, and tons of delicious cake. Wishing you the happiest birthday ever, Rajshree! 🌸</p>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        const teasers = [
+            "Come closer... 😉",
+            "Aww, almost got me! 🙈",
+            "You can't handle this gift! 🔥",
+            "Catch me if you can, cutie! 😉",
+            "Okay fine, yours now! 💖"
+        ];
+
+        function dodge(e) {
+            if (attempts < teasers.length) {
+                if (e && e.type === 'touchstart') {
+                    e.preventDefault();
+                }
+
+                const btn = document.getElementById('claimBtn');
+                
+                const btnWidth = btn.offsetWidth || 150;
+                const btnHeight = btn.offsetHeight || 50;
+
+                const minX = 20;
+                const minY = 20;
+                const maxX = window.innerWidth - btnWidth - 20;
+                const maxY = window.innerHeight - btnHeight - 20;
+
+                const newX = Math.max(minX, Math.floor(Math.random() * (maxX - minX + 1)) + minX);
+                const newY = Math.max(minY, Math.floor(Math.random() * (maxY - minY + 1)) + minY);
+
+                btn.style.left = newX + 'px';
+                btn.style.top = newY + 'px';
+                btn.style.transform = 'none';
+
+                btn.innerText = teasers[attempts];
+                attempts++;
+
+                if (attempts === teasers.length) {
+                    btn.style.background = "linear-gradient(45deg, #2ed573, #1e90ff)";
+                }
+            }
+        }
+
+        function handleWin() {
+            if (attempts >= teasers.length) {
+                document.getElementById('prank-screen').style.display = 'none';
+                
+                const btn = document.getElementById('claimBtn');
+                btn.style.display = 'none';
+
+                const resultScreen = document.getElementById('result-screen');
+                resultScreen.style.display = 'flex';
+                resultScreen.style.flexDirection = 'column';
+                resultScreen.style.justifyContent = 'center';
+                resultScreen.style.alignItems = 'center';
+
+                confetti({
+                    particleCount: 160,
+                    spread: 85,
+                    origin: { y: 0.6 }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
