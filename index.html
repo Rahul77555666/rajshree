@@ -111,10 +111,8 @@
 </head>
 <body>
 
-    <!-- Space encoded to %20 so web servers locate the audio file cleanly -->
-    <audio id="birthdayAudio" src="bday%20wish%20audio.mp3" preload="auto"></audio>
+    <audio id="birthdayAudio" src="song.mp3" preload="auto" playsinline></audio>
 
-    <!-- SECTION 1: CUTE & FLIRTY PRANK SCREEN -->
     <div id="prank-screen">
         <span class="cute-tag">💖 Top Secret VIP Surprise 💖</span>
         <h1>HOLD ON, RAJSHREE! 🛑</h1>
@@ -129,7 +127,6 @@
         </div>
     </div>
 
-    <!-- SECTION 2: SURPRISE REVEAL -->
     <div id="result-screen">
         <img src="https://i.postimg.cc/cJ6nQYkV/Note-GPT-Image-20260807000451.png" alt="MLA Rajshree" class="mla-image">
         
@@ -142,6 +139,7 @@
 
     <script>
         let attempts = 0;
+        let isAudioUnlocked = false;
         const teasers = [
             "Come closer... 😉",
             "Aww, almost got me! 🙈",
@@ -150,12 +148,21 @@
             "Okay fine, yours now! 💖"
         ];
 
-        function dodge(e) {
-            // Prime audio on initial touch/hover to pass mobile autoplay policies
-            const audio = document.getElementById('birthdayAudio');
-            if (audio && attempts === 0) {
-                audio.load();
+        function unlockAudio() {
+            if (!isAudioUnlocked) {
+                const audio = document.getElementById('birthdayAudio');
+                if (audio) {
+                    audio.play().then(() => {
+                        audio.pause();
+                        audio.currentTime = 0;
+                        isAudioUnlocked = true;
+                    }).catch(() => {});
+                }
             }
+        }
+
+        function dodge(e) {
+            unlockAudio();
 
             if (attempts < teasers.length) {
                 if (e && e.type === 'touchstart') {
@@ -163,7 +170,6 @@
                 }
 
                 const btn = document.getElementById('claimBtn');
-                
                 const btnWidth = btn.offsetWidth || 150;
                 const btnHeight = btn.offsetHeight || 50;
 
@@ -190,16 +196,14 @@
 
         function handleWin() {
             if (attempts >= teasers.length) {
-                // Play Audio directly on final user tap
                 const audio = document.getElementById('birthdayAudio');
                 if (audio) {
-                    audio.play().catch(error => console.log("Audio play blocked:", error));
+                    audio.currentTime = 0;
+                    audio.play().catch(error => console.log("Playback error:", error));
                 }
 
                 document.getElementById('prank-screen').style.display = 'none';
-                
-                const btn = document.getElementById('claimBtn');
-                btn.style.display = 'none';
+                document.getElementById('claimBtn').style.display = 'none';
 
                 const resultScreen = document.getElementById('result-screen');
                 resultScreen.style.display = 'flex';
