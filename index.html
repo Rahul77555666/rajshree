@@ -111,8 +111,8 @@
 </head>
 <body>
 
-    <!-- MATCHED EXACTLY TO YOUR UPLOADED FILE NAME -->
-    <audio id="birthdayAudio" src="bday wish audio.mp3" preload="auto"></audio>
+    <!-- Space encoded to %20 so web servers locate the audio file cleanly -->
+    <audio id="birthdayAudio" src="bday%20wish%20audio.mp3" preload="auto"></audio>
 
     <!-- SECTION 1: CUTE & FLIRTY PRANK SCREEN -->
     <div id="prank-screen">
@@ -151,6 +151,12 @@
         ];
 
         function dodge(e) {
+            // Prime audio on initial touch/hover to pass mobile autoplay policies
+            const audio = document.getElementById('birthdayAudio');
+            if (audio && attempts === 0) {
+                audio.load();
+            }
+
             if (attempts < teasers.length) {
                 if (e && e.type === 'touchstart') {
                     e.preventDefault();
@@ -184,7 +190,7 @@
 
         function handleWin() {
             if (attempts >= teasers.length) {
-                // PLAY AUDIO
+                // Play Audio directly on final user tap
                 const audio = document.getElementById('birthdayAudio');
                 if (audio) {
                     audio.play().catch(error => console.log("Audio play blocked:", error));
